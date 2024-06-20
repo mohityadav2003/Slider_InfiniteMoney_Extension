@@ -7,16 +7,16 @@ document.getElementById("stop").addEventListener("click", () => {
 });
   
 
-chrome.runtime.sendMessage({ action: "getBetCount" }, function(response) {
-  if (response && response.count !== undefined) {
-    document.getElementById('betCount').textContent = response.count;
-  } else {
-    document.getElementById('betCount').textContent = "Error fetching bet count.";
-  }
-});
+// chrome.runtime.sendMessage({ action: "getBetCount" }, function(response) {
+//   if (response && response.count !== undefined) {
+//     document.getElementById('betCount').textContent = response.count;
+//   } else {
+//     document.getElementById('betCount').textContent = "Error fetching bet count.";
+//   }
+// });
 
-chrome.storage.onChanged.addListener(function(changes, area) {
-  if (area === "local" && changes.betCount && changes.betCount.newValue !== undefined) {
-    document.getElementById('betCount').textContent = changes.betCount.newValue;
-  }
-});
+// chrome.storage.onChanged.addListener(function(changes, area) {
+//   if (area === "local" && changes.betCount && changes.betCount.newValue !== undefined) {
+//     document.getElementById('betCount').textContent = changes.betCount.newValue;
+//   }
+// });
