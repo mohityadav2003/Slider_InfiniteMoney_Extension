@@ -86,6 +86,7 @@ function automateBetting() {
     const betAmountInput = document.querySelector('input[data-test="input-game-amount"]');
     const submitButton = document.querySelector('button[data-testid="bet-button"]');
     const element = document.querySelector('.svelte-e4myuj');
+    
     if (!openTableButton || !betAmountInput || !submitButton) {
         console.error("Required elements not found on the page.");
         return;
@@ -102,23 +103,31 @@ function automateBetting() {
         }
 
         const prevVal = Number(lastValueCell.innerText.slice(0, -1));
-        const defaultBetAmount = 0.50;
+        const defaultBetAmount = 1.10;
 
         const closeButton = document.querySelector('button[data-testid="game-modal-close"]');
         closeButton.click();
 
+        let newBetAmount;
         if (prevVal < 2) {
-            const temp= (parseFloat(parseFloat(betAmountInput.value) * 2).toFixed(2)).toString();
-            betAmountInput.value=temp;
-            element.innerText=`₹${temp}`;
+            newBetAmount = parseFloat(parseFloat(betAmountInput.value) * 2).toFixed(2);
         } else {
-            const temp = (parseFloat(defaultBetAmount).toFixed(2)).toString();
-            betAmountInput.value=temp;
-            element.innerText=`₹${temp}`;
+            newBetAmount = parseFloat(defaultBetAmount).toFixed(2);
         }
-        // console.log("Placing bet with amount:", betAmountInput.value);
-        setTimeout(()=>{
+
+        // Set the new value and trigger input events
+        betAmountInput.value = newBetAmount;
+        element.innerText = `₹${newBetAmount}`;
+        
+        // Create and dispatch the input and change events
+        const inputEvent = new Event('input', { bubbles: true });
+        const changeEvent = new Event('change', { bubbles: true });
+        betAmountInput.dispatchEvent(inputEvent);
+        betAmountInput.dispatchEvent(changeEvent);
+
+        setTimeout(() => {
             submitButton.click();
-        },1000);
+        }, 1000);
     }, 3000); // Adjust the timeout as needed
 }
+
